@@ -1,13 +1,19 @@
-/* acekapila.com — audit working paper */
+/* acekapila.com — techno */
 
 :root{
-  --paper:#F1F2EE;
-  --ink:#14201D;
-  --ink-soft:#4C5854;
-  --accent:#2E6A58;
-  --rule:#C7CCC2;
-  --mute:#7B7466;
-  --measure:34rem;
+  --bg:#0a0e17;
+  --panel:#0d1424;
+  --panel-hi:#111a2e;
+  --border:#1e2a42;
+  --ink:#e7ecf7;
+  --ink-soft:#8b98b3;
+  --accent:#35d4e8;     /* cyan — links, refs, eyebrow */
+  --accent-2:#ff5fa8;   /* magenta — strong emphasis */
+  --accent-3:#ff8a3d;   /* orange — underline / cursor */
+  --mute:#5c6a86;
+  --measure:36rem;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --grot:"Bricolage Grotesque",system-ui,sans-serif;
 }
 
 *,*::before,*::after{box-sizing:border-box;}
@@ -15,26 +21,26 @@ html{-webkit-text-size-adjust:100%;}
 
 body{
   margin:0;
-  background:var(--paper);
-  color:var(--ink);
-  font-family:"Newsreader",Georgia,serif;
-  font-size:clamp(1.0625rem,0.98rem + 0.42vw,1.1875rem);
-  line-height:1.62;
-  font-optical-sizing:auto;
+  background:var(--bg);
+  color:var(--ink-soft);
+  font-family:var(--mono);
+  font-size:clamp(1rem,0.95rem + 0.28vw,1.0625rem);
+  line-height:1.65;
   -webkit-font-smoothing:antialiased;
 }
 
-/* faint ruled field */
+/* faint circuit grid */
 body::before{
   content:"";
   position:fixed;
   inset:0;
   pointer-events:none;
   z-index:0;
-  background:repeating-linear-gradient(
-    to bottom,
-    transparent 0 2.1rem,
-    rgba(20,32,29,.028) 2.1rem 2.1rem);
+  background-image:
+    linear-gradient(rgba(53,212,232,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(53,212,232,.05) 1px,transparent 1px);
+  background-size:2.75rem 2.75rem;
+  mask-image:radial-gradient(ellipse 70% 55% at 50% 0%,#000 0%,transparent 75%);
 }
 
 .wrap{
@@ -50,130 +56,160 @@ body::before{
 .masthead{
   display:flex;
   flex-wrap:wrap;
-  gap:.5rem 1.25rem;
+  gap:.6rem 1rem;
   align-items:baseline;
   justify-content:space-between;
-  padding-bottom:.85rem;
-  border-bottom:1px solid var(--ink);
+  padding-bottom:1rem;
+  border-bottom:1px solid var(--border);
 }
 
-.masthead a{color:inherit;text-decoration:none;}
-.masthead a:hover,.masthead a:focus-visible{color:var(--accent);}
+.masthead a{text-decoration:none;}
 
 .tag{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;
-  font-size:.7rem;
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:.68rem;
   font-weight:500;
-  letter-spacing:.14em;
+  letter-spacing:.13em;
   text-transform:uppercase;
-  color:var(--mute);
+  color:var(--ink-soft);
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:99px;
+  padding:.32rem .75rem;
   margin:0;
+  transition:border-color .15s ease,color .15s ease;
 }
 
-.tag--accent{color:var(--accent);}
+.tag--accent{color:var(--accent-2);border-color:color-mix(in srgb,var(--accent-2) 40%,var(--border));}
 
-.masthead nav{display:flex;gap:1.25rem;}
+.masthead a.tag:hover,.masthead a.tag:focus-visible{
+  color:var(--accent);
+  border-color:var(--accent);
+}
+.masthead a.tag:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+.masthead nav{display:flex;flex-wrap:wrap;gap:.6rem;}
 
 /* ---------- statement ---------- */
 
 .statement{
-  font-family:"Bricolage Grotesque",system-ui,sans-serif;
-  font-weight:600;
-  font-size:clamp(1.85rem,1.15rem + 3.2vw,3.35rem);
-  line-height:1.09;
-  letter-spacing:-.022em;
+  font-family:var(--grot);
+  font-weight:700;
+  font-size:clamp(1.85rem,1.1rem + 3.4vw,3.35rem);
+  line-height:1.1;
+  letter-spacing:-.02em;
+  color:var(--ink);
   margin:clamp(2rem,5vw,3.25rem) 0 0;
-  max-width:20ch;
+  max-width:22ch;
   text-wrap:balance;
 }
+
+.statement::after{
+  content:"_";
+  color:var(--accent-3);
+  animation:blink 1.1s step-end infinite;
+}
+
+@keyframes blink{50%{opacity:0;}}
 
 .standfirst{
   margin:1.5rem 0 0;
   max-width:var(--measure);
-  font-size:1.05em;
+  font-size:1em;
   color:var(--ink-soft);
 }
 
 /* ---------- entries ---------- */
 
-.entries{margin:clamp(2.75rem,7vw,4.5rem) 0 0;border-top:1px solid var(--rule);}
+.entries{
+  margin:clamp(2.75rem,7vw,4.5rem) 0 0;
+  border-top:1px solid var(--border);
+  counter-reset:entry;
+}
 
 .entry{
+  counter-increment:entry;
   display:grid;
-  grid-template-columns:8.5rem minmax(0,1fr);
-  gap:0 2.5rem;
+  grid-template-columns:9rem minmax(0,1fr);
+  gap:0 2rem;
   padding:1.85rem 0;
-  border-bottom:1px solid var(--rule);
+  border-bottom:1px solid var(--border);
 }
 
 .entry__ref{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;
-  font-size:.7rem;
+  font-family:var(--mono);
+  font-size:.68rem;
   font-weight:500;
-  letter-spacing:.14em;
+  letter-spacing:.12em;
   text-transform:uppercase;
-  color:var(--mute);
-  padding-top:.42rem;
+  color:var(--accent);
+  padding-top:.5rem;
   margin:0;
 }
 
-.entry__ref span{display:block;color:var(--accent);margin-top:.3rem;}
+.entry__ref::before{
+  content:"0" counter(entry) " // ";
+  color:var(--mute);
+}
+
+.entry__ref span{display:block;color:var(--accent-3);margin-top:.35rem;}
 
 .entry__body{margin:0;max-width:var(--measure);}
 .entry__body + .entry__body{margin-top:.9rem;}
 
 .entry__body strong{
-  font-weight:500;
-  color:var(--ink);
-  border-bottom:1.5px solid var(--accent);
+  font-weight:600;
+  color:var(--accent-2);
+  border-bottom:1.5px solid var(--accent-3);
   padding-bottom:.05em;
 }
 
 .entry h2{
-  font-family:"Bricolage Grotesque",system-ui,sans-serif;
-  font-weight:600;
+  font-family:var(--grot);
+  font-weight:700;
   font-size:1.15rem;
-  letter-spacing:-.012em;
-  margin:0 0 .5rem;
+  letter-spacing:-.01em;
+  color:var(--ink);
+  margin:0 0 .6rem;
 }
 
 /* ---------- link lists ---------- */
 
 .links{list-style:none;margin:0;padding:0;max-width:var(--measure);}
-.links li + li{margin-top:.15rem;}
+.links li + li{margin-top:.6rem;}
 
 .links a{
   display:flex;
   align-items:baseline;
   gap:.85rem;
-  padding:.6rem .7rem .6rem 0;
+  padding:.7rem .9rem;
   color:var(--ink);
   text-decoration:none;
-  border-radius:2px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:8px;
+  transition:border-color .15s ease,background .15s ease;
 }
 
-.links a:hover .links__name,
-.links a:focus-visible .links__name{
-  color:var(--accent);
-  text-decoration:underline;
-  text-underline-offset:.22em;
-  text-decoration-thickness:1.5px;
+.links a:hover,.links a:focus-visible{
+  border-color:var(--accent);
+  background:var(--panel-hi);
 }
 
-.links a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+.links a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 
 .links__name{
-  font-family:"Bricolage Grotesque",system-ui,sans-serif;
+  font-family:var(--grot);
   font-weight:600;
-  font-size:1.05rem;
-  letter-spacing:-.01em;
-  transition:color .15s ease;
+  font-size:1rem;
+  letter-spacing:-.005em;
 }
 
 .links__meta{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;
-  font-size:.7rem;
-  letter-spacing:.1em;
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.08em;
   text-transform:uppercase;
   color:var(--mute);
   margin-left:auto;
@@ -192,20 +228,22 @@ body::before{
 .article{max-width:var(--measure);margin:clamp(2rem,5vw,3.25rem) 0 0;}
 
 .article h1{
-  font-family:"Bricolage Grotesque",system-ui,sans-serif;
-  font-weight:600;
-  font-size:clamp(1.6rem,1.2rem + 1.9vw,2.5rem);
+  font-family:var(--grot);
+  font-weight:700;
+  font-size:clamp(1.6rem,1.15rem + 2vw,2.5rem);
   line-height:1.14;
   letter-spacing:-.02em;
+  color:var(--ink);
   margin:.6rem 0 0;
   text-wrap:balance;
 }
 
 .article h2{
-  font-family:"Bricolage Grotesque",system-ui,sans-serif;
-  font-weight:600;
+  font-family:var(--grot);
+  font-weight:700;
   font-size:1.25rem;
-  letter-spacing:-.012em;
+  letter-spacing:-.01em;
+  color:var(--ink);
   margin:2.4rem 0 .6rem;
 }
 
@@ -214,30 +252,32 @@ body::before{
 .article li{margin-bottom:.4rem;}
 
 .article a{
-  color:var(--ink);
+  color:var(--accent);
   text-decoration:underline;
   text-underline-offset:.18em;
   text-decoration-thickness:1.5px;
-  text-decoration-color:var(--accent);
+  text-decoration-color:var(--accent-3);
 }
-.article a:hover,.article a:focus-visible{color:var(--accent);}
+.article a:hover,.article a:focus-visible{color:var(--ink);}
 
-.article table{border-collapse:collapse;width:100%;margin:0 0 1.5rem;font-size:.95rem;}
-.article th,.article td{text-align:left;padding:.55rem .75rem .55rem 0;border-bottom:1px solid var(--rule);vertical-align:top;}
+.article table{border-collapse:collapse;width:100%;margin:0 0 1.5rem;font-size:.92rem;}
+.article th,.article td{text-align:left;padding:.55rem .75rem .55rem 0;border-bottom:1px solid var(--border);vertical-align:top;}
 .article th{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;
-  font-size:.7rem;
+  font-family:var(--mono);
+  font-size:.68rem;
   font-weight:500;
-  letter-spacing:.12em;
+  letter-spacing:.1em;
   text-transform:uppercase;
-  color:var(--mute);
+  color:var(--accent);
 }
 
 .article blockquote{
   margin:0 0 1.15rem;
-  padding-left:1.1rem;
-  border-left:2px solid var(--accent);
+  padding:.9rem 1.1rem;
+  background:var(--panel);
+  border-left:2px solid var(--accent-3);
   color:var(--ink-soft);
+  border-radius:0 8px 8px 0;
 }
 
 /* ---------- colophon ---------- */
@@ -245,15 +285,14 @@ body::before{
 .colophon{
   margin-top:2.75rem;
   padding-top:1.25rem;
-  border-top:1px solid var(--ink);
+  border-top:1px solid var(--border);
   display:flex;
   flex-wrap:wrap;
   gap:.4rem 1.5rem;
   justify-content:space-between;
 }
 
-.colophon a{color:inherit;text-decoration:none;}
-.colophon a:hover,.colophon a:focus-visible{color:var(--accent);}
+.colophon .tag{background:transparent;}
 
 /* ---------- load sequence ---------- */
 
@@ -269,12 +308,13 @@ body::before{
 
 @media (prefers-reduced-motion:reduce){
   .rise{animation:none;opacity:1;transform:none;}
+  .statement::after{animation:none;}
 }
 
 /* ---------- narrow ---------- */
 
 @media (max-width:34rem){
-  .entry{grid-template-columns:1fr;gap:.55rem;}
+  .entry{grid-template-columns:1fr;gap:.6rem;}
   .entry__ref{padding-top:0;}
   .entry__ref span{display:inline;margin:0 0 0 .6rem;}
   .links a{flex-wrap:wrap;gap:.15rem .85rem;}
@@ -285,54 +325,54 @@ body::before{
 /* ---------- repository list ---------- */
 
 .repos{list-style:none;margin:0;padding:0;max-width:var(--measure);}
-.repos li{padding:.75rem 0;border-bottom:1px dotted var(--rule);}
-.repos li:last-child{border-bottom:0;}
+.repos li{padding:0;margin:0 0 .6rem;}
+.repos li:last-child{margin-bottom:0;}
 
 .repos a{
   display:block;
+  padding:.9rem 1rem;
   color:var(--ink);
   text-decoration:none;
-  border-radius:2px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:8px;
+  transition:border-color .15s ease,background .15s ease;
 }
 
-.repos a:hover .repo__name,
-.repos a:focus-visible .repo__name{
-  color:var(--accent);
-  text-decoration:underline;
-  text-underline-offset:.22em;
-  text-decoration-thickness:1.5px;
+.repos a:hover,.repos a:focus-visible{
+  border-color:var(--accent);
+  background:var(--panel-hi);
 }
 
-.repos a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+.repos a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 
 .repo__name{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-family:var(--mono);
   font-size:.92rem;
-  font-weight:500;
-  letter-spacing:-.01em;
-  transition:color .15s ease;
+  font-weight:600;
+  letter-spacing:-.005em;
+  color:var(--ink);
 }
 
 .repo__desc{
-  margin:.22rem 0 0;
-  font-size:.95rem;
-  line-height:1.48;
+  margin:.3rem 0 0;
+  font-size:.92rem;
+  line-height:1.5;
   color:var(--ink-soft);
 }
 
 .repo__meta{
-  margin:.35rem 0 0;
+  margin:.5rem 0 0;
   display:flex;
   flex-wrap:wrap;
   gap:.35rem .9rem;
-  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-family:var(--mono);
   font-size:.66rem;
   letter-spacing:.1em;
   text-transform:uppercase;
   color:var(--mute);
 }
 
-.repo__meta span::before{content:"";}
 .repo__lang::before{
   content:"";
   display:inline-block;
@@ -340,6 +380,7 @@ body::before{
   margin-right:.4rem;
   border-radius:50%;
   background:var(--accent);
+  box-shadow:0 0 6px var(--accent);
   vertical-align:.02rem;
 }
 
