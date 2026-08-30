@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sumit Sharma — acekapila</title>
+<meta name="description" content="Sumit Sharma. Security and information security auditor in financial services, Melbourne.">
+<meta name="author" content="Sumit Sharma">
+<link rel="canonical" href="https://acekapila.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sumit Sharma — acekapila">
+<meta property="og:description" content="Security auditor in financial services, Melbourne. I write about the parts nobody has settled yet.">
+<meta property="og:url" content="https://acekapila.com/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<main class="wrap">
+
+  <header class="masthead">
+    <p class="tag">Sumit Sharma</p>
+    <nav>
+      <a class="tag" href="writing/index.html">Writing</a>
+      <a class="tag" href="https://github.com/acekapila">GitHub</a>
+      <a class="tag tag--accent" href="https://www.linkedin.com/in/acekapila/">LinkedIn</a>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       DURABLE — should survive a change of focus. Leave this alone.
+       ============================================================ -->
+  <h1 class="statement rise">I audit security controls in financial services, and I write about the parts nobody has settled yet.</h1>
+
+  <p class="standfirst rise">Melbourne. Cloud identity, privileged access, attack surface, and the regulation that sits over all of it. I came up through offensive security, which changes how I audit — it is easier to judge whether a control holds when you know how it gets bypassed.</p>
+
+  <div class="entries">
+
+    <!-- ============================================================
+         SWAPPABLE — when your focus moves, change only this block
+         and its date. Nothing above needs touching.
+         ============================================================ -->
+    <section class="entry rise">
+      <p class="entry__ref">Working on<span>Aug 2026</span></p>
+      <div>
+        <h2>How anyone audits an AI system</h2>
+        <p class="entry__body">Organisations are deploying AI faster than anyone has agreed how to assure it. The old control frameworks half-fit. The new ones, <strong>NIST AI RMF</strong> and <strong>ISO 42001</strong>, are still being translated into things an auditor can actually test.</p>
+        <p class="entry__body">Most of what exists is legal commentary or vendor marketing. Very little of it tells you which questions to ask or what evidence to request. That gap is what I'm working through, against <strong>NIST CSF 2.0</strong> and <strong>APRA CPG 234</strong> as the starting point.</p>
+      </div>
+    </section>
+
+    <section class="entry rise">
+      <p class="entry__ref">Recent</p>
+      <div>
+        <p class="links__note">Nothing published yet. First piece is in progress — it will appear here and on the <a href="writing/index.html">writing</a> page.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CODE — populates itself from the GitHub API.
+         Tag a repo with the topic "showcase" on GitHub to feature it.
+         With no tagged repos it shows the four most recently pushed.
+         ============================================================ -->
+    <section class="entry rise">
+      <p class="entry__ref">Code</p>
+      <div>
+        <ul class="repos" id="repos" data-user="acekapila" data-topic="showcase" data-limit="4">
+          <li><p class="repos--loading">Loading repositories&hellip;</p></li>
+        </ul>
+        <p class="links__note" style="margin-top:.9rem;"><a href="https://github.com/acekapila">All repositories on GitHub</a></p>
+      </div>
+    </section>
+
+    <section class="entry rise">
+      <p class="entry__ref">Terms</p>
+      <div>
+        <p class="entry__body">I don't consult, I don't take paid work, and I have nothing to sell. If something here is useful to you, that is the entire point.</p>
+      </div>
+    </section>
+
+    <section class="entry rise">
+      <p class="entry__ref">Elsewhere</p>
+      <div>
+        <ul class="links">
+          <li>
+            <a href="https://www.linkedin.com/in/acekapila/">
+              <span class="links__name">LinkedIn</span>
+              <span class="links__meta">/in/acekapila</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/acekapila">
+              <span class="links__name">GitHub</span>
+              <span class="links__meta">@acekapila</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="colophon">
+    <p class="tag">Views are my own, not my employer's</p>
+    <p class="tag">acekapila.com</p>
+  </footer>
+
+</main>
+
+<script>
+(function () {
+  var el = document.getElementById('repos');
+  if (!el) return;
+
+  var user  = el.getAttribute('data-user');
+  var topic = el.getAttribute('data-topic');
+  var limit = parseInt(el.getAttribute('data-limit'), 10) || 4;
+
+  function fallback(msg) {
+    el.innerHTML = '<li><p class="repos--loading">' + msg + '</p></li>';
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  fetch('https://api.github.com/users/' + user + '/repos?sort=pushed&per_page=100', {
+    headers: { 'Accept': 'application/vnd.github+json' }
+  })
+    .then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    })
+    .then(function (all) {
+      if (!Array.isArray(all)) throw new Error('bad payload');
+
+      var live = all.filter(function (r) {
+        return !r.fork && !r.archived && !r.private;
+      });
+
+      var tagged = live.filter(function (r) {
+        return (r.topics || []).indexOf(topic) !== -1;
+      });
+
+      var picked = (tagged.length ? tagged : live).slice(0, limit);
+
+      if (!picked.length) {
+        fallback('No public repositories yet.');
+        return;
+      }
+
+      el.innerHTML = picked.map(function (r) {
+        var meta = [];
+        if (r.language) {
+          meta.push('<span class="repo__lang">' + esc(r.language) + '</span>');
+        }
+        if (r.stargazers_count) {
+          meta.push('<span>' + r.stargazers_count + ' stars</span>');
+        }
+        if (r.pushed_at) {
+          meta.push('<span>Updated ' + new Date(r.pushed_at).toLocaleDateString('en-AU', {
+            month: 'short', year: 'numeric'
+          }) + '</span>');
+        }
+        return '<li><a href="' + esc(r.html_url) + '">' +
+          '<span class="repo__name">' + esc(r.name) + '</span>' +
+          (r.description ? '<p class="repo__desc">' + esc(r.description) + '</p>' : '') +
+          (meta.length ? '<p class="repo__meta">' + meta.join('') + '</p>' : '') +
+          '</a></li>';
+      }).join('');
+    })
+    .catch(function () {
+      fallback('Repositories are on <a href="https://github.com/' + user + '">GitHub</a>.');
+    });
+})();
+</script>
+</body>
+</html>
