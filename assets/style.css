@@ -280,6 +280,57 @@ body::before{
   border-radius:0 8px 8px 0;
 }
 
+/* ---------- chart ---------- */
+
+.chart{
+  margin:2.5rem 0;
+  padding:1.5rem 1.5rem 1.25rem;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:8px;
+}
+
+.chart__label{
+  font-family:var(--mono);
+  font-size:.68rem;
+  font-weight:500;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin:0 0 1rem;
+}
+
+.chart__bar{
+  display:flex;
+  height:2.25rem;
+  border-radius:4px;
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+
+.chart__bar span{flex:1;background:var(--accent);}
+.chart__bar span:nth-child(1){opacity:1;}
+.chart__bar span:nth-child(2){opacity:.62;}
+.chart__bar span:nth-child(3){opacity:.32;}
+.chart__bar span:nth-child(4){opacity:.12;}
+
+.chart__axis{
+  display:flex;
+  justify-content:space-between;
+  margin-top:.6rem;
+  font-family:var(--mono);
+  font-size:.72rem;
+  color:var(--mute);
+}
+
+.chart figcaption{
+  margin-top:.9rem;
+  font-family:var(--grot);
+  font-style:italic;
+  font-size:.9rem;
+  color:var(--accent-3);
+}
+
 /* ---------- colophon ---------- */
 
 .colophon{
