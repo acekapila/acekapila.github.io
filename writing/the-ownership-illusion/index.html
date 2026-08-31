@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Ownership Illusion — Sumit Sharma</title>
+<meta name="description" content="Accountability is assigned to the system, not to each stage of the AI pipeline, so it evaporates in the handoffs.">
+<meta name="author" content="Sumit Sharma">
+<link rel="canonical" href="https://acekapila.com/writing/the-ownership-illusion/">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Ownership Illusion — Sumit Sharma">
+<meta property="og:description" content="Accountability is assigned to the system, not to each stage of the AI pipeline, so it evaporates in the handoffs.">
+<meta property="og:url" content="https://acekapila.com/writing/the-ownership-illusion/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<main class="wrap">
+
+  <header class="masthead">
+    <p class="tag">Sumit Sharma</p>
+    <nav>
+      <a class="tag" href="../../index.html">Home</a>
+      <a class="tag" href="../index.html">Writing</a>
+      <a class="tag tag--accent" href="https://www.linkedin.com/in/acekapila/">LinkedIn</a>
+    </nav>
+  </header>
+
+  <article class="article">
+    <p class="tag">Aug 2026</p>
+    <h1>The Ownership Illusion: Why an AI System Can Have an Owner and No Accountability</h1>
+
+    <p>Every AI system deployed in a large organisation has an owner. That's rarely in dispute. Pull the governance register, and a name is there.</p>
+
+    <p>What's almost never tested is whether that ownership is still doing anything.</p>
+
+    <p>A name in a RACI is a record of a decision made once. It says nothing about whether anyone is still accountable for what the system is doing now, months after the launch.</p>
+
+    <p><strong>This is the actual risk: ownership of an AI system decays without anyone removing it.</strong></p>
+
+    <p>The record stays exactly as it was on launch day. What erodes is everything that record was supposed to represent: active governance of the model, ongoing checks on data quality, ongoing checks on performance. And it erodes silently unless someone keeps actively reviewing it.</p>
+
+    <h2>Root cause</h2>
+
+    <p>Attention is concentrated entirely at launch, where the incentive to ship is strongest, and the incentive to keep watching afterwards often doesn't exist.</p>
+
+    <p>Once the system is live, drift becomes invisible by default. A model that's slowly degrading still produces output that looks like output, so nothing necessarily forces anyone's attention back to it.</p>
+
+    <h2>Why this risk is specific to AI, not a general governance failure</h2>
+
+    <p>Ownership decay isn't new. What's different with AI is that the system being governed can change underneath the owner. For a traditional IT asset, the asset itself is comparatively stable. If an owner stops paying attention, the asset doesn't necessarily change its behaviour because of that lack of attention.</p>
+
+    <p>An AI use case doesn't hold still. The data feeding it shifts. The underlying model gets retrained, fine-tuned, or swapped for a newer release, often by a vendor, without triggering anything that looks like a change request internally. None of this necessarily requires anyone to re-approve the use case, because these changes may not be recognised as a change to "the system" that the original owner signed off on. They are treated as normal operation.</p>
+
+    <p>So the gap between <strong>assigned ownership</strong> and <strong>active accountability</strong> can open quickly. And it opens invisibly, because the thing that's changing isn't the governance record. It's the system underneath the record.</p>
+
+    <h2>What this actually costs an organisation</h2>
+
+    <p>A model drifts and starts producing outputs that are biased, inaccurate, or simply inconsistent with its intended purpose. That behaviour may never have been approved if it had been reviewed directly.</p>
+
+    <p>If the organisation doesn't catch it internally, a customer complaint, a regulator's request, or an incident may be what finally brings the issue to light.</p>
+
+    <p>Only then does anyone ask: <strong>Who owns the system?</strong></p>
+
+    <p>There is an answer. A name is on record.</p>
+
+    <p>But that answer provides little assurance if the named owner has not been actively accountable for the system's behaviour since the original approval was signed.</p>
+
+    <p>The organisation has ownership on paper, but not necessarily accountability in practice.</p>
+
+    <p>For any institution, this is a material governance risk, not merely a reputational inconvenience.</p>
+
+    <p>If a regulator asks for evidence of ongoing oversight and the organisation can only produce a launch approval, that is functionally close to having never established effective ownership at all.</p>
+
+    <h2>The diagnosis</h2>
+
+    <p>Here's what actually happens inside many organisations.</p>
+
+    <p>Someone builds an AI system. Before it launches, a name gets attached to it.</p>
+
+    <p>What nobody checks is whether that name still means anything six months later.</p>
+
+    <p>Ask four questions:</p>
+
+    <ul>
+      <li><strong>Does the person whose name is on record still hear about this system?</strong> Or did their involvement end the day they approved it?</li>
+      <li><strong>If they stopped performing the role, would anyone notice?</strong> Is there an escalation or review mechanism that tests whether the assigned responsibility is actually being performed?</li>
+      <li><strong>Was any budget, tooling, or time actually set aside to keep watching the system after launch?</strong> Or did all the resourcing go into building and shipping it?</li>
+      <li><strong>If that person left the company tomorrow, would the responsibility survive them?</strong> Is it formally embedded in the role, job description, performance objectives, or another mechanism that would tell their replacement the duty exists?</li>
+    </ul>
+
+    <p>These questions map well to the intent of NIST CSF 2.0's GV.RR category "Roles, Responsibilities, and Authorities". It is designed to establish accountability, performance assessment, and continuous improvement. NIST's four GV.RR outcomes address leadership accountability, clearly established and enforced responsibilities, adequate resources, and the incorporation of cybersecurity into HR practices.</p>
+
+    <p><strong>The important point is that a name alone doesn't demonstrate any of these outcomes.</strong></p>
+
+    <p>A governance register can prove that someone was assigned. It cannot, by itself, prove that they are still accountable.</p>
+
+    <h2>What should be in place?</h2>
+
+    <p>Closing this gap doesn't require a new framework. It requires treating the existing governance requirements as things to verify, rather than as boxes to tick.</p>
+
+    <p>Concretely, that means:</p>
+
+    <ul>
+      <li><strong>Evidence of post-launch engagement.</strong> The accountable leader should be able to point to something that happened after launch: a recurring report, a standing agenda item, a review, or another artefact showing they are still engaging with this specific system's behaviour — not just its original approval.</li>
+      <li><strong>A mechanism that detects inactive accountability.</strong> If the named owner stops performing the ongoing duties of the role, something should catch that: an escalation, a review, a control, or anything other than silence.</li>
+      <li><strong>Dedicated post-launch resources.</strong> There should be budget, tooling, or staff time for monitoring and oversight, distinct from the resources spent building and shipping the system.</li>
+      <li><strong>Responsibility that survives personnel changes.</strong> The ongoing responsibility should be reflected in a job description, performance objective, role definition, or equivalent HR mechanism, so it survives a reorganisation or a departure rather than disappearing with whoever originally held it.</li>
+    </ul>
+
+    <p>An auditor testing this doesn't need a new methodology. They need to stop accepting a name as the whole answer.</p>
+
+    <p>Instead, they should ask for evidence that the ownership is <strong>active, resourced, enforced, and durable</strong>.</p>
+
+    <p>If that evidence comes back empty, the organisation hasn't established effective ownership.</p>
+  </article>
+
+  <footer class="colophon">
+    <p class="tag">Views are my own</p>
+    <p class="tag">acekapila.com</p>
+  </footer>
+
+</main>
+</body>
+</html>
