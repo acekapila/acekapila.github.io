@@ -238,6 +238,13 @@ body::before{
   text-wrap:balance;
 }
 
+.article img{
+  max-width:100%;
+  height:auto;
+  display:block;
+  margin:1.75rem 0;
+}
+
 .article h2{
   font-family:var(--grot);
   font-weight:700;
