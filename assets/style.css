@@ -57,23 +57,10 @@ body::before{
   display:flex;
   flex-wrap:wrap;
   gap:.6rem 1rem;
-  align-items:center;
+  align-items:baseline;
   justify-content:space-between;
   padding-bottom:1rem;
   border-bottom:1px solid var(--border);
-}
-
-.brand{display:flex;align-items:center;gap:.55rem;}
-
-.logo{
-  width:1.5rem;
-  height:1.5rem;
-  flex:none;
-  fill:none;
-  stroke:var(--accent);
-  stroke-width:2;
-  stroke-linecap:round;
-  stroke-linejoin:round;
 }
 
 .masthead a{text-decoration:none;}
