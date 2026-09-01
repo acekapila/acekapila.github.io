@@ -65,7 +65,7 @@ body::before{
 
 .brand{display:flex;align-items:center;gap:.55rem;}
 
-.logo{width:2.75rem;height:2.75rem;flex:none;}
+.logo{width:4.5rem;height:4.5rem;flex:none;}
 
 .masthead a{text-decoration:none;}
 
