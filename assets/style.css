@@ -65,14 +65,14 @@ body::before{
 
 .brand{display:flex;align-items:center;gap:.55rem;}
 
-.logo{width:1.75rem;height:1.75rem;flex:none;}
+.logo{width:2.75rem;height:2.75rem;flex:none;}
 
 .masthead a{text-decoration:none;}
 
 .tag{
   display:inline-block;
   font-family:var(--mono);
-  font-size:.68rem;
+  font-size:.78rem;
   font-weight:500;
   letter-spacing:.13em;
   text-transform:uppercase;
