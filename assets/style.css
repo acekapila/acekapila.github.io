@@ -57,11 +57,15 @@ body::before{
   display:flex;
   flex-wrap:wrap;
   gap:.6rem 1rem;
-  align-items:baseline;
+  align-items:center;
   justify-content:space-between;
   padding-bottom:1rem;
   border-bottom:1px solid var(--border);
 }
+
+.brand{display:flex;align-items:center;gap:.55rem;}
+
+.logo{width:1.75rem;height:1.75rem;flex:none;}
 
 .masthead a{text-decoration:none;}
 
