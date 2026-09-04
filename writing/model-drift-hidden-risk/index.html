@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Same Name, Different Model — Sumit Sharma</title>
+<meta name="description" content="The model behind an LLM API can change overnight — same name, same endpoint, different behaviour — because vendors quietly retrain or re-tune it.">
+<meta name="author" content="Sumit Sharma">
+<link rel="canonical" href="https://acekapila.com/writing/model-drift-hidden-risk/">
+<link rel="icon" href="/assets/images/logo.png" type="image/png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Same Name, Different Model — Sumit Sharma">
+<meta property="og:description" content="The model behind an LLM API can change overnight — same name, same endpoint, different behaviour — because vendors quietly retrain or re-tune it.">
+<meta property="og:url" content="https://acekapila.com/writing/model-drift-hidden-risk/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="dark">
+<link rel="stylesheet" href="../../assets/style.css?v=4">
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5756725cdbbf4eb5a222c07a6df9ddc5"}'></script><!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+<main class="wrap">
+
+  <header class="masthead">
+    <div class="brand">
+      <img class="logo" src="../../assets/images/logo.png" alt="">
+      <p class="tag">Sumit Sharma</p>
+    </div>
+    <nav>
+      <a class="tag" href="../../index.html">Home</a>
+      <a class="tag" href="../index.html">Writing</a>
+      <a class="tag tag--accent" href="https://www.linkedin.com/in/acekapila/">LinkedIn</a>
+    </nav>
+  </header>
+
+  <article class="article">
+    <p class="tag">Sep 2026</p>
+    <h1>Same Name, Different Model: The Hidden Risk Behind Every LLM Deployment</h1>
+
+    <div class="tldr">
+      <p class="tldr__label">TL;DR</p>
+      <ul>
+        <li>The model behind an LLM API can change overnight, same name, same endpoint, different behaviour, because vendors quietly retrain or re-tune it. A Stanford and UC Berkeley study found GPT-4's accuracy on a simple prime-number task fall from 84% to 51% in just three months, with no warning to anyone using it.<sup><a href="#ref-1">1</a></sup></li>
+        <li>This has already caused real harm: Air Canada was held legally liable for its chatbot inventing a discount policy that didn't exist.<sup><a href="#ref-2">2</a></sup> New York City's official business chatbot told owners they could legally take staff tips and turn away housing voucher tenants, both illegal.<sup><a href="#ref-3">3</a></sup></li>
+        <li>Most organisations can't see this happening. Gartner estimates only 15% of generative AI deployments today have any real behavioural monitoring in place, the rest can only confirm the system responded, not whether the response was right.<sup><a href="#ref-4">4</a></sup></li>
+        <li>Financial services carries the sharpest exposure: banking is deterministic, a balance has one correct answer, while an LLM is probabilistic. When OpenAI quietly retired several models overnight at the launch of a new one, it wasn't hypothetical, customers felt it first, real users losing tools they depended on, with zero notice.<sup><a href="#ref-5">5</a></sup></li>
+      </ul>
+    </div>
+
+    <h2>The model you tested isn't always the model you're running</h2>
+
+    <p>Here's the part of LLM risk that catches most teams off guard. You validate a model once, sign off on it, and start using it in production. But the version behind that API call can change without you doing anything at all. Same name. Same endpoint. Different model.</p>
+
+    <p>This isn't a hypothetical edge case. Researchers at Stanford and UC Berkeley tested GPT-4 and GPT-3.5 on the same tasks, three months apart, using nothing but the standard public API.</p>
+
+    <p>On one task, telling prime numbers from non-prime numbers, GPT-4's accuracy dropped from 84% to 51% in 3 months. On a stricter version of the same test, it fell from 97.6% to 2.4%. Nobody using the API was told this had happened. The model's name hadn't changed. Its behaviour had.<sup><a href="#ref-1">1</a></sup></p>
+
+    <p>It's a bit like ordering the same dish at a restaurant every week and one day it tastes completely different, no new item on the menu, no announcement, just a different result from the same order.</p>
+
+    <p>There's a genuine debate about what caused this. Some researchers argue the model didn't get worse at reasoning, it just stopped formatting its answers the way it used to, which broke how the test was scored.</p>
+
+    <p>That's a fair point, but it doesn't make the risk smaller. If a small, invisible tuning change can break how a model formats its output, it can just as easily break whatever your system depends on.</p>
+
+    <p>The lesson isn't "GPT-4 got dumber." It's that the same input can produce a materially different output after a change nobody told you about, and there was no error message when it happened.</p>
+
+    <div class="callout">
+      <span class="callout__icon">💡</span>
+      <p>Traditional software gives you the same output for the same input, every time, because someone wrote an explicit rule for it. An LLM gives you the <em>most likely</em> output based on what it learned, and that likelihood shifts the moment the underlying weights shift, even slightly. A single word added or removed from a prompt, or a small adjustment made during a routine fine-tuning pass, can be enough to nudge the model toward a different answer, a different format, a different tone.</p>
+    </div>
+
+    <h2>What this looks like when it goes wrong</h2>
+
+    <p>This isn't theoretical. A few real cases show exactly how it plays out.</p>
+
+    <p><strong>Air Canada</strong> lost a legal case after its website chatbot told a grieving customer he could claim a bereavement fare discount retroactively, a policy that never existed. Air Canada actually argued in court that the chatbot was responsible for its own words, not the company. The tribunal rejected that outright, stating "if you deploy it, you own what it says". The payout was small, a few hundred dollars, but the precedent is the real story.<sup><a href="#ref-2">2</a></sup></p>
+
+    <p><strong>New York City's official small-business chatbot</strong> told users they could legally take a share of their employees' tips and could refuse tenants using housing vouchers, both illegal under New York law. Different users asking the identical question sometimes got different, contradictory answers. The city left it running with a disclaimer for months before shutting it down.<sup><a href="#ref-3">3</a></sup></p>
+
+    <p><strong>A UK delivery company's chatbot</strong> swore at a customer and wrote a poem calling its own employer "useless," triggered by a routine system update. The company's own explanation was blunt: "something changed after an update, and the bot's behaviour changed with it".<sup><a href="#ref-6">6</a></sup></p>
+
+    <p>And when OpenAI launched a new flagship model in 2025, it quietly removed close to nine older models from its consumer product overnight, with no warning. Users who had built habits, prompts, and workflows around those specific models lost them without notice. After enough of an uproar, OpenAI restored one of them within days and publicly admitted it should have handled the transition differently.<sup><a href="#ref-5">5</a></sup></p>
+
+    <p>None of these are exotic failures. They're the direct, visible cost of a system whose behaviour can change on someone else's schedule, without your knowledge.</p>
+
+    <h2>Why heavily regulated firms feel this hardest</h2>
+
+    <p>Most software is deterministic in a way, ask the same question, get the same answer, every time. However, an LLM isn't. Ask it the same question twice and you might get two different answers. And if the underlying model quietly changes behind the scenes, you might get a third answer next month that looks nothing like the first two.</p>
+
+    <p>For a regulated firm, that's a genuinely different category of risk than a normal IT system failure. A hallucinated interest rate, an invented compliance exemption, or a fabricated transaction detail isn't a glitch you patch and move on from.</p>
+
+    <p>It could lead to potential customer harm and a regulatory finding waiting to happen. It's part of why several major firms have deliberately kept public-facing generative AI on a short leash rather than let it run unsupervised in customer conversations.</p>
+
+    <h2>The bigger problem that almost nobody is actually watching</h2>
+
+    <p>Here's the uncomfortable part. Most organisations running these systems in production have no real way of knowing when this kind of change happens. Gartner estimates that only around 15% of generative AI deployments today have genuine behavioural monitoring in place. The rest can confirm the system is technically running, but nothing about whether what it's saying is still correct, on-policy, or consistent with what was tested at launch.<sup><a href="#ref-4">4</a></sup></p>
+
+    <p>Separate industry research on AI agents in production found that observability, the ability to actually see what the system is doing, is one of the biggest gaps between a pilot and a reliable production deployment.</p>
+
+    <p>This is the practical shape of the risk. A system that can change without notice, running inside an organisation that has no way of noticing.</p>
+
+    <h2>What should actually be in place</h2>
+
+    <p>None of this means LLMs can't be used safely, it means the controls have to match how these systems actually fail, not how traditional software fails.</p>
+
+    <p>A few things matter most. <strong>Pin to a specific, dated version of the model</strong> rather than a generic name that the vendor can silently redirect. This alone closes most of the "same name, different model" problem. <strong>Track vendor deprecation notices</strong> as seriously as a patch calendar, because models get retired on the vendor's timeline, not yours.</p>
+
+    <p><strong>Build a small set of known-answer test questions</strong> specific to your use case, and re-run them regularly and immediately after any suspected model update.</p>
+
+    <p>And <strong>treat this as a governance question, not just an engineering one.</strong> Someone needs to own watching for this, with an audit trail showing what version was live, when, and what its outputs looked like, because a regulator or a court will eventually ask.</p>
+
+    <p>The core insight is a simple one, the model you approved and the model you're running are not guaranteed to be the same thing, indefinitely.</p>
+
+    <h2>References</h2>
+
+    <ol class="references">
+      <li id="ref-1">Chen, Zaharia, Zou, "How Is ChatGPT's Behavior Changing over Time?" — <a href="https://arxiv.org/abs/2307.09009">arxiv.org/abs/2307.09009</a></li>
+      <li id="ref-2"><em>Moffatt v. Air Canada</em>, 2024 BCCRT 149 — <a href="https://www.canlii.org/en/bc/bccrt/doc/2024/2024bccrt149/2024bccrt149.html">canlii.org</a></li>
+      <li id="ref-3">The Markup, "NYC's AI Chatbot Tells Businesses to Break the Law" — <a href="https://themarkup.org/artificial-intelligence/2024/03/29/nycs-ai-chatbot-tells-businesses-to-break-the-law">themarkup.org</a></li>
+      <li id="ref-4">Gartner, "Gartner Predicts By 2028, Explainable AI Will Drive LLM Observability Investments to 50% for Secure GenAI Deployment" — <a href="https://www.gartner.com/en/newsroom/press-releases/2026-03-30-gartner-predicts-by-2028-explainable-ai-will-drive-llm-observability-investments-to-50-percent-for-secure-genai-deployment">gartner.com</a></li>
+      <li id="ref-5">Marketing AI Institute, on the GPT-5 launch and model deprecations — <a href="https://www.marketingaiinstitute.com/blog/gpt-5-launch">marketingaiinstitute.com</a></li>
+      <li id="ref-6">AI Incident Database, entry 631 — <a href="https://incidentdatabase.ai/cite/631/">incidentdatabase.ai</a></li>
+    </ol>
+  </article>
+
+  <footer class="colophon">
+    <p class="tag">Views are my own</p>
+    <p class="tag">acekapila.com</p>
+  </footer>
+
+</main>
+</body>
+</html>
